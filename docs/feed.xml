@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>SPIDERS_W3B</title>
+<link>https://t.me/spiders_w3b</link>
+<atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+<description>آرشیو زندهٔ کانال تلگرام — اخبار، مدیا و فایل‌ها به‌صورت خودکار از تلگرام همگام‌سازی و منتشر می‌شوند.</description>
+<language>fa</language>
+<item>
+<title>hello world</title>
+<link>/post/5/</link>
+<guid isPermaLink="false">https://t.me/spiders_w3b/5</guid>
+<pubDate>Sat, 03 Oct 2026 01:43:20 +0000</pubDate>
+<description>hello world</description>
+
+</item>
+</channel>
+</rss>
