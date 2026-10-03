@@ -4,8 +4,8 @@
 <title>SPIDERS_W3B</title>
 <link>https://t.me/spiders_w3b</link>
 <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-<description>آرشیو زندهٔ کانال تلگرام — اخبار، مدیا و فایل‌ها به‌صورت خودکار از تلگرام همگام‌سازی و منتشر می‌شوند.</description>
-<language>fa</language>
+<description>Live archive of the spiders_w3b Telegram channel — news, media and files, automatically synced and woven into a static spider-web site.</description>
+<language>en</language>
 <item>
 <title>hello world</title>
 <link>/post/5/</link>

@@ -1,11 +1,11 @@
 {
  "name": "SPIDERS_W3B",
  "short_name": "SPIDERS_W3B",
- "description": "آرشیو زندهٔ کانال تلگرام — اخبار، مدیا و فایل‌ها به‌صورت خودکار از تلگرام همگام‌سازی و منتشر می‌شوند.",
+ "description": "Live archive of the spiders_w3b Telegram channel — news, media and files, automatically synced and woven into a static spider-web site.",
  "start_url": "./index.html",
  "display": "minimal-ui",
  "background_color": "#050505",
  "theme_color": "#050505",
- "dir": "rtl",
- "lang": "fa"
+ "dir": "ltr",
+ "lang": "en"
 }

@@ -52,7 +52,7 @@
     const cp = e.target.closest(".copy");
     if (cp) {
       const url = new URL(cp.dataset.url, location.href).href;
-      const done = () => toast("پیوند کپی شد ⧉");
+      const done = () => toast("link copied ⧉");
       if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done).catch(done);
       else {
         const t = document.createElement("textarea");
@@ -83,7 +83,7 @@
   fxBtn?.addEventListener("click", () => {
     const off = document.documentElement.classList.toggle("nofx");
     try { localStorage.setItem("spiders-nofx", off ? "1" : "0"); } catch (_) {}
-    toast(off ? "افکت‌ها: خاموش" : "افکت‌ها: روشن");
+    toast(off ? "fx: off" : "fx: on");
   });
 
   /* ————— بازگشت به بالا ————— */
@@ -129,7 +129,7 @@
   const renderResults = (items, query) => {
     if (!query) { hideSearch(); return; }
     if (!items.length) {
-      resBox.innerHTML = `<div class="nores">هیچ سیگنالی در تار نیست…</div>`;
+      resBox.innerHTML = `<div class="nores">no signals in the web…</div>`;
       resBox.hidden = false;
       return;
     }
