@@ -24,6 +24,9 @@ TITLE    = CFG.get("site_title", "SPIDERS_W3B")
 DESC     = CFG.get("site_description", "")
 TG_URL   = CFG.get("telegram_url", f"https://t.me/{CFG.get('channel','')}")
 PAGE_SIZE = int(CFG.get("page_size", 25))
+LANG     = CFG.get("lang", "en")
+DIR      = "rtl" if LANG == "fa" else "ltr"
+LOCALE   = "fa_IR" if LANG == "fa" else "en_US"
 
 posts = json.loads((ROOT / "data/posts.json").read_text(encoding="utf-8")) \
     if (ROOT / "data/posts.json").exists() else []
@@ -131,8 +134,8 @@ def render_media(post, rel="") -> str:
             full = media_src(m, rel, "local")
             out.append(
                 f'<a class="lb" href="{esc(full)}" data-gal="{gal}" '
-                f'title="عکس {i}"><img loading="lazy" decoding="async" '
-                f'src="{esc(full)}" alt="عکس {i} — پست #{post["id"]}"></a>')
+                f'title="photo {i}"><img loading="lazy" decoding="async" '
+                f'src="{esc(full)}" alt="photo {i} — post #{post["id"]}"></a>')
         out.append("</div>")
 
     for m in others:
@@ -147,7 +150,7 @@ def render_media(post, rel="") -> str:
                 f'<video controls preload="none" playsinline src="{esc(src)}"{poster_attr}></video>{dur}</div>')
         elif t in ("audio", "voice"):
             src = media_src(m, rel, "local")
-            label = "پیام صوتی" if t == "voice" else "صوت"
+            label = "voice message" if t == "voice" else "audio"
             title = m.get("title") or label
             meta = " · ".join(x for x in [m.get("performer"), m.get("duration")] if x)
             out.append(
@@ -160,8 +163,8 @@ def render_media(post, rel="") -> str:
             size = f'<span class="d-size mono">{esc(m["size"])}</span>' if m.get("size") else ""
             out.append(
                 f'<a class="doc" href="{esc(src)}" download target="_blank" rel="noopener">'
-                f'{FILE_SVG}<span class="d-name">{esc(m.get("title") or "فایل")}</span>{size}'
-                f'<span class="d-dl mono">دانلود ↓</span></a>')
+                f'{FILE_SVG}<span class="d-name">{esc(m.get("title") or "file")}</span>{size}'
+                f'<span class="d-dl mono">download ↓</span></a>')
     return "\n".join(out)
 
 def render_poll(poll) -> str:
@@ -203,7 +206,7 @@ def render_card(post, rel="", single=False) -> str:
         head_tags += (f'<time class="ph-date mono" datetime="{esc(post["date"])}" '
                       f'title="{esc(post["date"])}">{esc(fmt_date(post["date"]))}</time>')
     if post.get("edited"):
-        head_tags += '<span class="tag mono">ویرایش‌شده</span>'
+        head_tags += '<span class="tag mono">edited</span>'
     if post.get("fwd"):
         f = post["fwd"]
         n = esc(f.get("name") or "")
@@ -222,11 +225,11 @@ def render_card(post, rel="", single=False) -> str:
     media = render_media(post, rel)
     poll = render_poll(post.get("poll"))
     lp = render_link_preview(post.get("link_preview"), rel)
-    views = (f'<span class="views mono" title="بازدید">{EYE} {esc(post["views"])}</span>'
+    views = (f'<span class="views mono" title="views">{EYE} {esc(post["views"])}</span>'
              if post.get("views") else "")
-    tg = (f'<a class="foot-a mono" href="{esc(post["url"])}" target="_blank" rel="noopener">تلگرام ↗</a>')
-    plink = f'<a class="foot-a mono" href="{rel}post/{pid}/">پین ٭</a>'
-    copy = (f'<button class="foot-a copy mono" data-url="{SID}/post/{pid}/" type="button">کپی لینک</button>')
+    tg = (f'<a class="foot-a mono" href="{esc(post["url"])}" target="_blank" rel="noopener">telegram ↗</a>')
+    plink = f'<a class="foot-a mono" href="{rel}post/{pid}/">link ٭</a>'
+    copy = (f'<button class="foot-a copy mono" data-url="{SID}/post/{pid}/" type="button">copy link</button>')
 
     article_tag = "article"
     parts = [f'<{article_tag} class="post" id="p{pid}" itemscope itemtype="https://schema.org/SocialMediaPosting">',
@@ -267,11 +270,12 @@ def web_svg(cls="web tl"):
 
 # ------------------------------------------------------------------ قالب اصلی صفحه
 ART = r"""
-   _   _      ____  ____  ___  ____  _____  ____  ____ _____ __      ______  ____
-  | \ | |    / ___||  _ \|_ _||  _ \| ____||  _ \/ ___||_   _|\ \    / /|___ /| __ )
-  |  \| |    \___ \| |_) || | | | | |  _|  | |_) |___ \  | |   \ \ /\ /   |_ \|  _ \
-  | |\  |     ___) |  __/ | | | |_| | |___ |  _ < ___) | | |    \ V  V /  ___) | |_) |
-  |_| \_|    |____/|_|   |___||____/|_____||_| \_\____/  |_|     \_/\_/  |____/|____/"""
+ ____  ____ ___ ____  _____ ____  ____ __        _______ ____
+/ ___||  _ \_ _|  _ \| ____|  _ \/ ___|\ \      / /___ /| __ )
+\___ \| |_) | || | | |  _| | |_) \___ \ \ \ /\ / /  |_ \|  _ \
+ ___) |  __/| || |_| | |___|  _ < ___) | \ V  V /  ___) | |_) |
+|____/|_|  |___|____/|_____|_| \_\____/___\_/\_/  |____/|____/
+                                     |_____|"""
 
 def nav_links(rel=""):
     return (f'<a class="mono" href="{rel}feed.xml">RSS</a><span class="sep">·</span>'
@@ -286,7 +290,7 @@ def head(*, title, desc, path, rel="", og_type="website", og_image=None, jsonld=
     jsonld_tag = f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>' if jsonld else ""
     twitter = "summary_large_image" if og_img_abs.startswith("http") else "summary"
     return f"""<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="{LANG}" dir="{DIR}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -298,7 +302,7 @@ def head(*, title, desc, path, rel="", og_type="website", og_image=None, jsonld=
 <link rel="alternate" type="application/rss+xml" title="{esc(TITLE)} RSS" href="{rel}feed.xml">
 <link rel="manifest" href="{rel}site.webmanifest">
 <meta property="og:site_name" content="{esc(TITLE)}">
-<meta property="og:locale" content="fa_IR">
+<meta property="og:locale" content="{LOCALE}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
@@ -324,19 +328,18 @@ def shell(*, title, desc, path, feed_html, pager="", extra_head="", og_type="web
 <body>
 {web_svg("web tl")}
 {web_svg("web br")}
-<a class="skip mono" href="#feed">پرش به تار</a>
+<a class="skip mono" href="#feed">skip to feed</a>
 
 <header class="mast">
   {web_svg("web mastweb")}
-  <div class="spawn" aria-hidden="true"><div class="thread"></div>{SPIDER}</div>
   <pre class="art mono" aria-hidden="true">{ART}</pre>
   <h1 class="title mono">{esc(CHAN_TITLE)}<span class="caret">▌</span></h1>
-  <p class="tagline mono">آرشیو زندهٔ تار — همگام با <a href="{TG_URL}" target="_blank" rel="noopener">{esc(chan.get('handle') or 'telegram')}</a></p>
+  <p class="tagline mono">live web archive // synced with <a href="{TG_URL}" target="_blank" rel="noopener">t.me/{esc(chan.get('handle') or 'telegram')}</a></p>
   {subs_html}
-  <nav class="nav mono"><a href="{rel or './'}index.html" rel="home">تار</a><span class="sep">·</span>{nav}<button id="fxtoggle" class="ghost mono" type="button" title="خاموش/روشن کردن افکت‌ها">fx</button></nav>
+  <nav class="nav mono"><a href="{rel or './'}index.html" rel="home">home</a><span class="sep">·</span>{nav}<button id="fxtoggle" class="ghost mono" type="button" title="toggle visual effects">fx</button></nav>
 
   <div class="searchbox" role="search">
-    <input id="q" type="search" dir="auto" placeholder="جستجو در تار…" autocomplete="off" aria-label="جستجو در پست‌ها">
+    <input id="q" type="search" dir="auto" placeholder="search the web…" autocomplete="off" aria-label="search posts">
     <kbd class="mono">/</kbd>
     <div id="searchres" class="results" hidden></div>
   </div>
@@ -357,19 +360,19 @@ def shell(*, title, desc, path, feed_html, pager="", extra_head="", og_type="web
     /  / | \\  \\
       /  |  \\</pre>
   <p class="mono">spiders_w3b // static web // no cookies · no trackers · no js ads</p>
-  <p class="mono dim">آخرین به‌روزرسانی: {NOW} — ساخته‌شده با GitHub Actions 🕷</p>
+  <p class="mono dim">last update: {NOW} — woven by github actions 🕷</p>
   <nav class="mono">{nav}</nav>
 </footer>
 
 <div id="lb" class="lbbox" hidden>
-  <button class="lb-x mono" type="button" aria-label="بستن">✕</button>
-  <button class="lb-n lb-prev mono" type="button" aria-label="قبلی">‹</button>
+  <button class="lb-x mono" type="button" aria-label="close">✕</button>
+  <button class="lb-n lb-prev mono" type="button" aria-label="previous">‹</button>
   <img alt="">
-  <button class="lb-n lb-next mono" type="button" aria-label="بعدی">›</button>
+  <button class="lb-n lb-next mono" type="button" aria-label="next">›</button>
   <div class="lb-cap mono"></div>
 </div>
 <div id="toast" class="toast mono" role="status"></div>
-<button id="top" class="totop mono" type="button" title="بازگشت به بالا">↑</button>
+<button id="top" class="totop mono" type="button" title="back to top">↑</button>
 {feed_data}
 <script>{APP_JS}</script>
 </body>
@@ -382,23 +385,23 @@ def chunked(lst, n):
 SID = SITE_URL  # alias داخلی برای کارت‌ها
 
 EMPTY_STATE = """
-<div class="empty mono" dir="rtl">
+<div class="empty mono">
   <div class="term">
-    <p><span class="ok">[*]</span> اتصال برقرار شد :: <b>t.me/spiders_w3b</b></p>
-    <p><span class="ok">[*]</span> شنود تار آغاز شد…</p>
-    <p><span class="ok">[*]</span> در حال تله‌گذاری برای سیگنال‌های جدید</p>
-    <p><span class="dot">[_]</span> هنوز پستی در کانال نیست — اولین سیگنال اینجا ظاهر می‌شود<span class="caret">▌</span></p>
+    <p><span class="ok">[*]</span> connection established :: <b>t.me/spiders_w3b</b></p>
+    <p><span class="ok">[*]</span> listening on the web…</p>
+    <p><span class="ok">[*]</span> trap set for incoming signals</p>
+    <p><span class="dot">[_]</span> no transmissions yet — the first signal will appear here<span class="caret">▌</span></p>
   </div>
-  <a class="cta mono" href="https://t.me/spiders_w3b" target="_blank" rel="noopener">عضویت در کانال ↗</a>
+  <a class="cta mono" href="https://t.me/spiders_w3b" target="_blank" rel="noopener">join the channel ↗</a>
 </div>"""
 
 def pager_links(page, pages, rel=""):
     links = []
     if page < pages:
-        links.append(f'<a class="mono" href="{rel}page/{page+1}/" rel="next">← سیگنال‌های قدیمی‌تر</a>')
+        links.append(f'<a class="mono" href="{rel}page/{page+1}/" rel="next">← older signals</a>')
     if page > 1:
         href = f"{rel}index.html" if page == 2 else f"{rel}page/{page-1}/"
-        links.append(f'<a class="mono" href="{href}" rel="prev">سیگنال‌های جدیدتر →</a>')
+        links.append(f'<a class="mono" href="{href}" rel="prev">newer signals →</a>')
     if not links:
         return ""
     return '<nav class="pager" aria-label="صفحه‌بندی">' + '<span class="sep"> · </span>'.join(links) + '</nav>'
@@ -407,7 +410,7 @@ def jsonld_index(items):
     parts = []
     for p in items[:10]:
         parts.append({"@type": "SocialMediaPosting",
-                      "headline": plain_text(p, 110) or f"پست #{p['id']}",
+                      "headline": plain_text(p, 110) or f"post #{p['id']}",
                       "datePublished": p.get("date"),
                       "url": f"{SID}/post/{p['id']}/" if SID else p["url"],
                       "author": {"@type": "Organization", "name": CHAN_TITLE, "sameAs": TG_URL}})
@@ -419,7 +422,7 @@ def jsonld_post(p):
     imgs = [f"{SID}/{m['local']}" for m in p["media"]
             if m["type"] == "photo" and m.get("local") and SID]
     j = {"@context": "https://schema.org", "@type": "SocialMediaPosting",
-         "headline": plain_text(p, 110) or f"پست #{p['id']}",
+         "headline": plain_text(p, 110) or f"post #{p['id']}",
          "datePublished": p.get("date"), "url": f"{SID}/post/{p['id']}/" if SID else p["url"],
          "mainEntityOfPage": f"{SID}/post/{p['id']}/" if SID else None,
          "author": {"@type": "Organization", "name": CHAN_TITLE, "sameAs": TG_URL}}
@@ -513,7 +516,7 @@ def build():
                         og_type=ogt, jsonld=jl, feed_js=feed_js)
         else:
             path_ = DOCS / f"page/{i}/index.html"
-            out = shell(title=f"{TITLE} — صفحه {i}", desc=DESC, path=f"page/{i}/",
+            out = shell(title=f"{TITLE} — page {i}", desc=DESC, path=f"page/{i}/",
                         feed_html=cards, pager=pager_links(i, total, "../../"), rel="../../")
         write(path_, out)
 
@@ -541,7 +544,7 @@ def build():
         if newer:
             nav.append(f'<a class="mono" href="../{newer}/" rel="next">#{newer} →</a>')
         pnav = '<nav class="pager postnav">' + '<span class="sep mono"> · </span>'.join(nav) + '</nav>' if nav else ""
-        ptitle = plain_text(p, 70) or f"پست #{pid}"
+        ptitle = plain_text(p, 70) or f"post #{pid}"
         og_img = None
         for m in p["media"]:
             if m["type"] == "photo" and m.get("local") and SID:
@@ -560,7 +563,7 @@ def build():
     items = []
     for p in posts[:30]:
         txt = plain_text(p, 300)
-        title = txt.split("\n")[0][:90] or f"پست #{p['id']}"
+        title = txt.split("\n")[0][:90] or f"post #{p['id']}"
         encl = ""
         for m in p["media"]:
             if m["type"] == "photo" and m.get("local") and SID:
@@ -583,7 +586,7 @@ def build():
 <link>{SID or TG_URL}</link>
 <atom:link href="{SID}/feed.xml" rel="self" type="application/rss+xml"/>
 <description>{xesc(DESC)}</description>
-<language>fa</language>
+<language>{LANG}</language>
 {''.join(items)}
 </channel>
 </rss>"""
@@ -611,7 +614,7 @@ def build():
     write(DOCS / "site.webmanifest", json.dumps({
         "name": TITLE, "short_name": TITLE, "description": DESC,
         "start_url": "./index.html", "display": "minimal-ui",
-        "background_color": "#050505", "theme_color": "#050505", "dir": "rtl", "lang": "fa"},
+        "background_color": "#050505", "theme_color": "#050505", "dir": DIR, "lang": LANG},
         ensure_ascii=False, indent=1))
     write(DOCS / ".nojekyll", "")
     if CFG.get("cname"):

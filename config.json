@@ -1,12 +1,12 @@
 {
   "channel": "spiders_w3b",
   "site_title": "SPIDERS_W3B",
-  "site_description": "آرشیو زندهٔ کانال تلگرام — اخبار، مدیا و فایل‌ها به‌صورت خودکار از تلگرام همگام‌سازی و منتشر می‌شوند.",
+  "site_description": "Live archive of the spiders_w3b Telegram channel — news, media and files, automatically synced and woven into a static spider-web site.",
   "site_url": "",
   "telegram_url": "https://t.me/spiders_w3b",
   "cname": "",
   "page_size": 25,
   "max_media_mb": 45,
   "max_pages": 0,
-  "lang": "fa"
+  "lang": "en"
 }
