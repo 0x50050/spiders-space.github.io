@@ -1,5 +1,7 @@
 # 🕷 SPIDERS_W3B — سایت وب کانال تلگرام
 
+[![pages-build-deployment](https://github.com/spiders-space/spiders-space.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/spiders-space/spiders-space.github.io/actions/workflows/pages/pages-build-deployment)
+
 آرشیو زندهٔ **[t.me/spiders_w3b](https://t.me/spiders_w3b)** روی GitHub Pages.
 هر ۳۰ دقیقه GitHub Actions کانال را بررسی می‌کند، پست‌های جدید + مدیا آرشیو می‌شوند و سایت استاتیک بازسازی و منتشر می‌شود — شبیه یک تایم‌لاین توییتر، با تم تار عنکبوت/دارک‌وب.
 
