@@ -1,0 +1,18 @@
+{
+ "name": "SPIDERS_W3B",
+ "short_name": "SPIDERS_W3B",
+ "description": "آرشیو زندهٔ کانال تلگرام — اخبار، مدیا و فایل‌ها به‌صورت خودکار از تلگرام همگام‌سازی و منتشر می‌شوند.",
+ "start_url": "./index.html",
+ "display": "minimal-ui",
+ "background_color": "#050505",
+ "theme_color": "#050505",
+ "dir": "rtl",
+ "lang": "fa",
+ "icons": [
+  {
+   "src": "assets/img/favicon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml"
+  }
+ ]
+}
