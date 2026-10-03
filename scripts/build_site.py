@@ -9,6 +9,7 @@ import json, os, re, shutil, sys, html as htmllib
 from pathlib import Path
 from datetime import datetime, timezone
 from email.utils import format_datetime
+from urllib.parse import quote
 from xml.sax.saxutils import escape as xesc
 
 from bs4 import BeautifulSoup
@@ -32,6 +33,24 @@ CHAN_TITLE = chan.get("title") or TITLE
 NOW = datetime.now(timezone.utc).strftime("%Y.%m.%d / %H:%M UTC")
 
 MONO_JUNK = re.compile(r"<[^>]+>")
+
+# ——— استایل و اسکریپت داخل خود HTML این‌لاین می‌شوند ———
+# چرا؟ چون با هر روش آپلود (حتی وب‌آپلود گیت‌هاب) دیگر فایل css/js جدا
+# برای ۴۰۴ خوردن وجود ندارد؛ سایت همیشه استایل‌دار بالا می‌آید.
+CSS_SRC = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+APP_JS  = (ROOT / "assets/js/app.js").read_text(encoding="utf-8")
+try:
+    FAVICON_DATA = "data:image/svg+xml," + \
+        quote((ROOT / "assets/img/favicon.svg").read_text(encoding="utf-8"), safe="")
+except Exception:
+    FAVICON_DATA = ""
+
+def inline_css(rel: str) -> str:
+    """مسیر فونت‌ها را نسبت به عمق صفحه اصلاح می‌کند (CSS در assets/css/ '../fonts/' می‌بیند)."""
+    return CSS_SRC.replace("../fonts/", f"{rel}assets/fonts/")
+
+def favicon_href(rel: str) -> str:
+    return FAVICON_DATA or (rel + "assets/img/favicon.svg")
 
 def log(*a): print("[build]", *a, flush=True)
 def esc(s): return htmllib.escape(str(s or ""), quote=True)
@@ -275,7 +294,7 @@ def head(*, title, desc, path, rel="", og_type="website", og_image=None, jsonld=
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {canonical}
-<link rel="icon" type="image/svg+xml" href="{rel}assets/img/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="{favicon_href(rel)}">
 <link rel="alternate" type="application/rss+xml" title="{esc(TITLE)} RSS" href="{rel}feed.xml">
 <link rel="manifest" href="{rel}site.webmanifest">
 <meta property="og:site_name" content="{esc(TITLE)}">
@@ -291,7 +310,7 @@ def head(*, title, desc, path, rel="", og_type="website", og_image=None, jsonld=
 {jsonld_tag}
 {extra}
 <script>try{{if(localStorage.getItem('spiders-nofx')==='1')document.documentElement.classList.add('nofx')}}catch(e){{}}</script>
-<link rel="stylesheet" href="{rel}assets/css/style.css">
+<style>{inline_css(rel)}</style>
 </head>"""
 
 def shell(*, title, desc, path, feed_html, pager="", extra_head="", og_type="website",
@@ -352,7 +371,7 @@ def shell(*, title, desc, path, feed_html, pager="", extra_head="", og_type="web
 <div id="toast" class="toast mono" role="status"></div>
 <button id="top" class="totop mono" type="button" title="بازگشت به بالا">↑</button>
 {feed_data}
-<script src="{rel}assets/js/app.js" defer></script>
+<script>{APP_JS}</script>
 </body>
 </html>"""
 
@@ -592,8 +611,7 @@ def build():
     write(DOCS / "site.webmanifest", json.dumps({
         "name": TITLE, "short_name": TITLE, "description": DESC,
         "start_url": "./index.html", "display": "minimal-ui",
-        "background_color": "#050505", "theme_color": "#050505", "dir": "rtl", "lang": "fa",
-        "icons": [{"src": "assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml"}]},
+        "background_color": "#050505", "theme_color": "#050505", "dir": "rtl", "lang": "fa"},
         ensure_ascii=False, indent=1))
     write(DOCS / ".nojekyll", "")
     if CFG.get("cname"):

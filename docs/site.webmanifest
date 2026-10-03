@@ -7,12 +7,5 @@
  "background_color": "#050505",
  "theme_color": "#050505",
  "dir": "rtl",
- "lang": "fa",
- "icons": [
-  {
-   "src": "assets/img/favicon.svg",
-   "sizes": "any",
-   "type": "image/svg+xml"
-  }
- ]
+ "lang": "fa"
 }

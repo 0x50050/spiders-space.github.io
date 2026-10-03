@@ -8,6 +8,8 @@
 
 **امکانات:** SEO کامل (Open Graph · JSON-LD · sitemap.xml · RSS · صفحهٔ مستقل هر پست با canonical) · جستجوی فارسی (دکمهٔ `/`) · اسکرول بی‌پایان + صفحه‌بندی استاتیک · لایت‌باکس گالری · کپی لینک هر پست · اسپویلر کلیک‌شونده · بدون کوکی و ردیاب · افکت CRT با دکمهٔ `fx` برای خاموشی.
 
+> 🧩 **CSS/JS این‌لاین:** استایل و اسکریپت موقع build داخل خودِ HTML قرار می‌گیرند — پس هیچ فایل جدایی برای ۴۰۴ خوردن روی Pages وجود ندارد و حتی با آپلود دستی هم سایت همیشه استایل‌دار بالا می‌آید. (فایل‌های `assets/css` و `assets/js` به‌عنوان ورودی build لازم‌اند و `assets/fonts` برای فونت.)
+
 ---
 
 ## راه‌اندازی (۱۰ دقیقه)
@@ -27,9 +29,16 @@ git push -u origin main
 - Source: **Deploy from a branch**
 - Branch: **main** و پوشهٔ **/docs** → Save
 
-### ۳) دادن دسترسی نوشتن به Actions
-`Settings → Actions → General → Workflow permissions`:
-- انتخاب **Read and write permissions** → Save
+### ۳) دسترسی نوشتن به Actions
+ورک‌فلو خودش با `permissions: contents: write` دسترسی لازم را می‌گیرد، پس **معمولاً نیازی به تغییر تنظیم نیست** — این مرحله را رد کن.
+
+اگر هنگام اجرای اکشن خطای `Resource not accessible by integration` گرفتی (معمولاً وقتی ریپو داخل سازمانی است که GITHUB_TOKEN را قفل کرده):
+
+1. برو به `github.com/settings/personal-access-tokens` → **Generate new token** (Fine-grained)
+   - Repository access: فقط ریپوی سایت · Permissions → **Contents: Read and write**
+2. در ریپو: `Settings → Secrets and variables → Actions → New repository secret`
+   - Name: `GH_PAT` · مقدار: توکن کپی‌شده
+3. دوباره اکشن را اجرا کن — ورک‌فلو خودکار از این توکن استفاده می‌کند.
 
 ### ۴) اجرای اول
 `Actions → 🕷 update web → Run workflow`
