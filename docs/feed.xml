@@ -2,13 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>SPIDERS_W3B</title>
-<link>https://t.me/spiders_w3b</link>
-<atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+<link>https://0x50050.github.io/spiders-space.github.io</link>
+<atom:link href="https://0x50050.github.io/spiders-space.github.io/feed.xml" rel="self" type="application/rss+xml"/>
 <description>Live archive of the spiders_w3b Telegram channel — news, media and files, automatically synced and woven into a static spider-web site.</description>
 <language>en</language>
 <item>
+<title>Channel name was changed to « Spider's W3b »</title>
+<link>https://0x50050.github.io/spiders-space.github.io/post/7/</link>
+<guid isPermaLink="false">https://t.me/spiders_w3b/7</guid>
+<pubDate>Sat, 03 Oct 2026 23:11:09 +0000</pubDate>
+<description>Channel name was changed to « Spider's W3b »</description>
+
+</item><item>
+<title>Spider's w3b - Spider's Space</title>
+<link>https://0x50050.github.io/spiders-space.github.io/post/6/</link>
+<guid isPermaLink="false">https://t.me/spiders_w3b/6</guid>
+<pubDate>Sat, 03 Oct 2026 23:03:28 +0000</pubDate>
+<description>Spider's w3b - Spider's Space</description>
+<enclosure url="https://0x50050.github.io/spiders-space.github.io/media/6_1.jpg" length="32929" type="image/jpeg"/>
+</item><item>
 <title>hello world</title>
-<link>/post/5/</link>
+<link>https://0x50050.github.io/spiders-space.github.io/post/5/</link>
 <guid isPermaLink="false">https://t.me/spiders_w3b/5</guid>
 <pubDate>Sat, 03 Oct 2026 01:43:20 +0000</pubDate>
 <description>hello world</description>
