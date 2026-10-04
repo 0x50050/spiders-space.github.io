@@ -1,0 +1,56 @@
+name: "🕷 update web"
+
+on:
+  schedule:
+    # هر ۳۰ دقیقه کانال تلگرام را بررسی و سایت را بازسازی می‌کند
+    - cron: "*/30 * * * *"
+  workflow_dispatch: # اجرای دستی از تب Actions
+  push:
+    paths:
+      - "scripts/**"
+      - "assets/**"
+      - "config.json"
+      - ".github/workflows/update.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-web
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # اگر ریپو در سازمانی است که GITHUB_TOKEN را قفل کرده،
+          # یک Fine-grained PAT با دسترسی Contents: read/write بساز
+          # و به‌عنوان سکرت GH_PAT اضافه کن — خودکار استفاده می‌شود.
+          token: ${{ secrets.GH_PAT || github.token }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Resolve site URL (user.github.io/repo)
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          echo "SITE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io/${REPO_NAME}" >> "$GITHUB_ENV"
+
+      - name: Fetch Telegram channel + media
+        run: python scripts/fetch_channel.py
+
+      - name: Build static site
+        run: python scripts/build_site.py
+
+      - name: Commit updated site
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🕸 site update [<no-reply>]"
+          file_pattern: "data docs media"
