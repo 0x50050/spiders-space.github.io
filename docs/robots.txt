@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /data/
 
-Sitemap: https://spiders-space.github.io/spiders-space.github.io/sitemap.xml
+Sitemap: https://0x50050.github.io/spiders-space.github.io/sitemap.xml
