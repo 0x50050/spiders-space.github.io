@@ -18,13 +18,13 @@
   "url": "https://t.me/spiders_w3b/6",
   "date": "2026-10-03T23:03:28+00:00",
   "date_txt": "23:03",
-  "views": "6",
+  "views": "8",
   "edited": false,
   "text_html": "<a href=\"https://t.me/spiders_w3b\" onclick=\"return confirm('Open this link?\\n\\n'+this.href);\" rel=\"noopener\" target=\"_blank\">Spider's w3b</a> - <a href=\"http://spiders-space.github.io/\" onclick=\"return confirm('Open this link?\\n\\n'+this.href);\" rel=\"noopener\" target=\"_blank\">Spider's Space</a>",
   "media": [
    {
     "type": "photo",
-    "url": "https://cdn1.telesco.pe/file/k0zs1lwbAX5q4ZzsJe6Mcfory6FKkMtWW6k2M7Mt9MHnr_TJWBxW2aKRrdeHe4ThHFl6EjsvXs3iJcgw3qtdteOCYmOvpLrP1PLIeNfI167Cobipd0GgmtUDlaPw9vfTsFoed93WjOvqG-FzTJ1WZ4rNxKhuRiNXZSI8dSYUwWx90WREPtZy6k5gZPcRXTArQCkOo4d_NNyNo_RhKJolLavCAWyulHWsDh3a32uHutLl0YCqBmksXFtL-eD_72qRiQT739GFWxKwtCAzUKcw-H2SafTPdgpWZzfDjMXfpehh9c71627xRqNgcEsaK3xkM6eIx_n9G-QYJBn1JwrE2A.jpg",
+    "url": "https://cdn1.telesco.pe/file/h2yWqMPh4VtHcZ7vE480kzeUuVZKIz1UGl7zUhwX7WlRf5udg0zUBVtTDx6KWqh1_1Yywzw4ox-2VUAE7Wv8SwgzrlrRubVDWyocdMPXkzc0mWfhYci-mfSRrZ3uTVfLznhp1fItlWRs2h4-AEaxgWYxsQ02eh8uzZ243LSWqUKOQxq0SPvEYG9pDRCSW2guyxyD1m5Q76QeqoWyypASeoCOLmsqg8klucBIKus-l1NV6OU3f-mMKunltVpC6PeqKWzy5rALAj3OXxCeUo19SHzcLXfV_TMKLovufO756p8Q9AIzcaKxwbkNo0CZtWjeEKGK19vbs4QgLzpnMGmeXQ.jpg",
     "local": "media/6_1.jpg"
    }
   ],
@@ -38,7 +38,7 @@
   "url": "https://t.me/spiders_w3b/5",
   "date": "2026-10-03T01:43:20+00:00",
   "date_txt": "01:43",
-  "views": "6",
+  "views": "8",
   "edited": false,
   "text_html": "hello world",
   "media": [],
